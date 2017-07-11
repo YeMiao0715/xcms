@@ -1,0 +1,46 @@
+{% extends '../public/base.html' %}
+{% block title %}xCMS系统
+{% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="/public/admin/css/index.css">
+  <script src="/public/admin/js/index.js"></script>
+{% endblock %}
+{% block content %}
+  <div id="top"> 
+    <span class="pull-left">
+      <button class="layui-btn layui-btn-small layui-btn-primary yc">
+        <i class="fa fa-list-ul"></i>
+      </button>
+    </span>
+    <span class="pull-right">
+      <a class="layui-btn layui-btn-small" href="out.html">安全退出</a>
+    </span>
+  </div>
+  <div id="left_menu">
+    <h1 id="title">xCMS</h1>
+    <p id="user">用户: {{user}}</p>
+    <ul class="layui-nav layui-nav-tree" lay-filter="dome">
+      <li class="layui-nav-item"><a href="javascript:;" data="admin_list.html">管理员管理</a></li>
+    </ul>
+  </div>
+  <div id="top_menu">
+    <div class="layui-tab layui-tab-brief" style="margin: 0;">
+      <ul class="layui-tab-title" style="margin-bottom: 0;"> 
+        <li class="layui-this" data="home.html">首页</li>
+      </ul>
+    </div>
+  </div>
+  <script>
+    $(function(){
+      $('.yc').click(function(){
+        layui.use('layer',function(){
+          let layer = layui.layer;
+          layer.msg('其实我是个摆设！哎嘿嘿。');
+        });
+      });
+    });
+  </script>
+{% endblock %}
+{% block main %}
+  <div id="main"></div>
+{% endblock %}

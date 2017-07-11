@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>{% block title %}{% endblock%}</title>
+    <!-- jQuery -->
+    <script src="/public/p/jquery-3.2.1.js"></script>
+    <!-- layui -->
+    <link rel="stylesheet" href="/public/p/layui/css/layui.css">
+    <link rel="stylesheet" href="/public/p/layui/css/modules/layer/default/layer.css">
+    <script src="/public/p/layui/layui.js"></script>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="/public/p/bootstrap-3.3.7/css/bootstrap.min.css">
+    <script src="/public/p/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="/public/p/font-awesome-4.7.0/css/font-awesome.min.css">
+    <script src="/public/p/pjax.js"></script>
+    {% block head %}{% endblock %}
+  </head>
+  <body> 
+    {% block content %}{% endblock %}
+    {% block main %}{% endblock %} 
+  </body>
+</html>

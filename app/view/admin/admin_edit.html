@@ -1,0 +1,44 @@
+<form class="layui-form" method="post" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label">新的密码</label>
+    <div class="layui-input-block">
+      <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" value="">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <input class="layui-btn" type="submit" value="立即提交">
+      {#<button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>#}
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+  <input type="hidden" name="id" value="{{row.id}}">
+</form>
+ 
+<script>
+//Demo
+$(function(){
+  layui.use(['form','layer'],function(){
+    var form = layui.form();    
+    var layer = layui.layer;
+    form.render();
+  });
+  $('form').off('submit').on('submit',function(){
+    $.post('admin_updata_pass.html',$(this).serialize(),function(data){
+      if(data == 1){
+        layer.close(layer.index);
+        layer.msg('更改成功！');
+        let url = window.location.pathname;
+        $.pjax({
+          url: url,            
+          container: '#main'
+        });
+      }else{
+        layer.msg('更改失败！');
+      }
+    });
+    return false;
+  });
+})
+
+</script>

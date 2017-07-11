@@ -1,0 +1,84 @@
+<link rel="stylesheet" href="/public/admin/css/home.css">
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        <h3 class="panel-title">xCMS系统</h3>
+    </div>
+    <div class="panel-body">
+        版本: 0.0.2 基层基本完毕！开始向下进发。
+        <span class="pull-right">作者:渠海涛</span>
+    </div>
+</div>
+<div>
+  <span class="pull-right">
+    <button class="layui-btn add">
+      <i class="layui-icon">&#xe608;</i> 添加
+    </button>
+  </span>
+</div>
+<table class="layui-table">
+  <colgroup>
+    <col>
+    <col>
+    <col>
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>用户</th>
+      <th>操作时间</th>
+      <th>日志</th>
+      <th>操作</th>
+    </tr> 
+  </thead>
+  <tbody>
+    {% for i in row%}
+      <tr>
+        <td>{{i.user}}</td>
+        <td>{{i.add_time}}</td>
+        <td>{{i.log}}</td>
+        <td>
+          <button class="layui-btn layui-btn-primary layui-btn-small del" data="{{i.id}}">
+            <i class="layui-icon">&#xe640;</i>
+          </button>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+  $(function(){
+    layui.use('layer',function(){
+      var layer = layui.layer;
+    });
+    $('.add').on('click',function(){
+      $.post('log.html',{
+        _csrf: '{{ctx.csrf}}' 
+      },function(data){
+        layer.open({
+          title: '添加日志！',
+            type: 1,
+            area: ['800px', '600px'], //宽高
+            content: data
+        });
+      });      
+    });
+    $('.del').on('click',function(){
+      let data = $(this).attr('data');
+      $.post('log_del.html',{
+        id: data,
+        _csrf: '{{ctx.csrf}}'
+      },function(data){
+        if(data){
+          layer.msg('删除成功！');
+          let url = window.location.pathname;
+          $.pjax({
+            url: url,            
+            container: '#main'
+          });
+        }else{
+          layer.msg('未找到指定数据');
+        }
+      });
+    });
+  });
+</script>
