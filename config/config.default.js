@@ -4,17 +4,17 @@ module.exports = appInfo => {
   const config = {
     view: {
       defaultViewEngine: 'nunjucks',
-      defaultExtension: '.html',
+      defaultExtension: '.nj',
       mapping: {
-        '.html': 'nunjucks',
+        '.nj': 'nunjucks',
       },
       root: [
         path.join(appInfo.baseDir, 'app/view'),
         path.join(appInfo.baseDir, 'path/to/another'),
-      ].join(',')
+      ].join(','),
     },
-    mysql:{
-      client:{
+    mysql: {
+      client: {
         // host
         host: '127.0.0.1',
         // 端口号
@@ -28,7 +28,7 @@ module.exports = appInfo => {
       },
       app: true,
       agent: false,
-    }
+    },
   };
 
   // should change to your own

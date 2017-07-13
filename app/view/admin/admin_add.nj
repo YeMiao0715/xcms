@@ -26,16 +26,13 @@ $(function(){
     var layer = layui.layer;
     form.render();
   });
+  
   $('form').off('submit').on('submit',function(){
     $.post('admin_add.html',$(this).serialize(),function(data){
       if(data > 1){
         layer.close(layer.index);
         layer.msg('添加成功！');
-        let url = window.location.pathname;
-        $.pjax({
-          url: url,            
-          container: '#main'
-        });
+        refresh();
       }else{
         layer.msg('用户已存在！');
       }

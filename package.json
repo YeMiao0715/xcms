@@ -25,7 +25,7 @@
   "scripts": {
     "start": "node index.js",
     "dev": "egg-bin dev",
-    "test": "npm run lint -- --fix && npm run test-local",
+    "test": "egg-bin test",
     "test-local": "egg-bin test",
     "cov": "egg-bin cov",
     "lint": "eslint .",

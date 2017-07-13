@@ -1,4 +1,4 @@
-{% extends '../public/base.html' %}
+{% extends '../public/base.nj' %}
 {% block title %}xCMS系统
 {% endblock %}
 {% block head %}
@@ -21,6 +21,14 @@
     <p id="user">用户: {{user}}</p>
     <ul class="layui-nav layui-nav-tree" lay-filter="dome">
       <li class="layui-nav-item"><a href="javascript:;" data="admin_list.html">管理员管理</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">内容</a>
+        <dl class="layui-nav-child">
+          <dd><a href="javascript:;" data="category.html">栏目管理</a></dd>
+          {# <dd><a href="">后台模版</a></dd>
+          <dd><a href="">电商平台</a></dd> #}
+        </dl>
+      </li>
     </ul>
   </div>
   <div id="top_menu">

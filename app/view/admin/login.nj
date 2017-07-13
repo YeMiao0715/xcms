@@ -1,10 +1,10 @@
-{% extends '../public/base.html' %}
+{% extends '../public/base.nj' %}
 {% block title %}
 登录
 {% endblock %}
 {% block head %}
-<link rel="stylesheet" href="public/admin/css/login.css">
-<script src="public/admin/js/login.js"></script>
+  <link rel="stylesheet" href="public/admin/css/login.css">
+  <script src="public/admin/js/login.js"></script>
 {% endblock %}
 {% block content%}
 <div id="login">

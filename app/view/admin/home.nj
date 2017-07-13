@@ -64,21 +64,21 @@
     });
     $('.del').on('click',function(){
       let data = $(this).attr('data');
-      $.post('log_del.html',{
-        id: data,
-        _csrf: '{{ctx.csrf}}'
-      },function(data){
-        if(data){
-          layer.msg('删除成功！');
-          let url = window.location.pathname;
-          $.pjax({
-            url: url,            
-            container: '#main'
-          });
-        }else{
-          layer.msg('未找到指定数据');
-        }
-      });
+      layer.confirm('确定删除！', {
+        btn: ['确定','取消'] //按钮
+      },function(){
+        $.post('log_del.html',{
+          id: data,
+          _csrf: '{{ctx.csrf}}'
+        },function(data){
+          if(data){
+            layer.msg('删除成功！');
+            refresh();
+          }else{
+            layer.msg('未找到指定数据');
+          }
+        });
+      });      
     });
   });
 </script>

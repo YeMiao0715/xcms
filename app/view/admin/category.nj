@@ -1,0 +1,118 @@
+<span class="pull-right">
+  <button class="layui-btn add">
+    <i class="layui-icon">&#xe608;</i> 栏目添加
+  </button>
+</span>
+<table class="layui-table">
+  <colgroup>
+    <col>
+    <col>
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>id</th>
+      <th>栏目名称</th>
+      <th>导航</th>
+      <th>排序</th>
+      <th>操作</th>
+    </tr> 
+  </thead>
+  <tbody>
+  {% for i in row %}
+    {% if i.fid == 0 %}
+    <tr>
+      <td>{{i.id}}</td>
+      <td>{{i.catename}}</td>      
+      <td>
+        {% if i.show == 1 %}
+          显示
+        {% else %}
+          不显示
+        {% endif%}
+      </td>
+      <td>{{i.order}}</td>
+      <td>
+        <div class="layui-btn-group">
+          <button class="layui-btn layui-btn-primary layui-btn-small edit" data="{{i.id}}">
+            <i class="layui-icon">&#xe642;</i>
+          </button>
+          <button class="layui-btn layui-btn-primary layui-btn-small del" data="{{i.id}}">
+            <i class="layui-icon">&#xe640;</i>
+          </button>            
+        </div>
+      </td>
+    </tr>
+    {% endif %}
+    {% for a in row %}
+      {% if a.fid == i.id %}
+        <tr>
+          <td>{{a.id}}</td>
+          <td>┗{{a.catename}}</td>
+          <td>
+            {% if a.show == 1 %}
+              显示
+            {% else %}
+              不显示
+            {% endif %}
+          </td>
+          <td>{{a.order}}</td>
+          <td>
+            <div class="layui-btn-group">
+              <button class="layui-btn layui-btn-primary layui-btn-small edit" data="{{a.id}}">
+                <i class="layui-icon">&#xe642;</i>
+              </button>
+              <button class="layui-btn layui-btn-primary layui-btn-small del" data="{{a.id}}">
+                <i class="layui-icon">&#xe640;</i>
+              </button>            
+            </div>          
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  {% endfor %}
+  </tbody>
+</table>
+
+<script> 
+$(function(){
+  layui.use('layer',function(){
+    layer = layui.layer;
+  });
+  $('.add').click(function(){
+    $.post('category_add.html',{
+      _csrf: '{{ctx.csrf}}'
+    },function(data){
+      layer.open({
+        title: '添加栏目！',
+        type: 1,
+        area: ['800px','600px'],
+        content: data
+      });
+    });
+  });
+  $('.del').click(function(){
+    let id = $(this).attr('data');
+    layer.confirm('确定删除！',{
+      btn: ['确定','取消']
+    },function(){
+      $.post('category_del.html',{
+        id: id,
+        _csrf: '{{ctx.csrf}}'
+      },function(data){
+        if(data == 1){
+          layer.msg('删除成功！');
+          refresh();
+        }else{
+          layer.msg('未找到指定数据！');
+        }
+      });
+    });    
+  });
+});
+</script>
+
+{#
+author: YeMiao
+date: 2017年7月12日16:02:44
+#}
