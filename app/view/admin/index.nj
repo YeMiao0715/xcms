@@ -1,8 +1,20 @@
+{# 
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-14 10:02:30 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 14:38:30
+ */ 
+ #}
+
 {% extends '../public/base.nj' %}
 {% block title %}xCMS系统
 {% endblock %}
 {% block head %}
   <link rel="stylesheet" href="/public/admin/css/index.css">
+  <script>
+   var csrf = '{{ctx.csrf}}';
+  </script>
   <script src="/public/admin/js/index.js"></script>
 {% endblock %}
 {% block content %}
@@ -20,7 +32,13 @@
     <h1 id="title">xCMS</h1>
     <p id="user">用户: {{user}}</p>
     <ul class="layui-nav layui-nav-tree" lay-filter="dome">
-      <li class="layui-nav-item"><a href="javascript:;" data="admin_list.html">管理员管理</a></li>
+      <li class="layui-nav-item">
+        <a href="javascript:;">用户</a>
+        <dl class="layui-nav-child">
+          <dd><a href="javascript:;" data="admin_list.html">用户管理</a></dd>
+          <dd><a href="javascript:;" data="user_group.html">用户组管理</a></dd>
+        </dl>
+      </li>
       <li class="layui-nav-item">
         <a href="javascript:;">内容</a>
         <dl class="layui-nav-child">

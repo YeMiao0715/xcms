@@ -1,3 +1,9 @@
+{# /*
+ * @Author: YeMiao 
+ * @Date: 2017-07-14 11:08:49 
+ * @Last Modified by:   YeMiao 
+ * @Last Modified time: 2017-07-14 11:08:49 
+ */ #}
 
 <div>
   <span class="pull-right">
@@ -16,6 +22,7 @@
   <thead>
     <tr>
       <th>用户</th>
+      <th>用户组</th>
       <th>创建时间</th>
       <th>添加用户</th>
       <th>状态</th>
@@ -26,14 +33,23 @@
   {% for i in row %}
     <tr>
       <td>{{i.user}}</td>
+      <td>
+        {% for a in group %}
+          {% if a.group == i.group%}
+            {{a.name}}
+          {% endif %}
+        {% endfor %}
+      </td>
       <td>{{i.add_time}}</td>
       <td>{{i.add_user}}</td>
       <td>
-        {% if i.state == 1%}
-          已激活
-        {% else %}
-          未激活
-        {% endif%}
+        <button class="layui-btn layui-btn-primary layui-btn-small state" data="{{i.id}}" state="{{i.state}}">
+          {% if i.state == 1%}
+            <font style="color: blue">已激活</font>
+          {% else %}
+            <font style="color: red">未激活</font> 
+          {% endif%}
+        </button>          
       </t>
       <td>
         {% if i.id == 1 %}
@@ -51,7 +67,7 @@
               <i class="layui-icon">&#xe642;</i>
             </button>
             <button class="layui-btn layui-btn-primary layui-btn-small del" data="{{i.id}}">
-              <i class="layui-icon">&#xe640;</i>
+              <i class="layui-icon" style="color: red">&#xe640;</i>
             </button>            
           </div>
         {% endif %}
@@ -68,7 +84,7 @@ $(function(){
   });
   $('.add').click(function(){
     $.post('admin_add.html',{
-      _csrf: '{{ctx.csrf}}'
+      _csrf: csrf
     },function(data){
       layer.open({
         title: '添加用户！',
@@ -82,7 +98,7 @@ $(function(){
     let id = $(this).attr('data');
     $.post('admin_edit.html',{
       id: id,
-      _csrf: '{{ctx.csrf}}'
+      _csrf: csrf
     },function(data){
       if(data){
         layer.open({
@@ -103,7 +119,7 @@ $(function(){
     },function(){
       $.post('admin_del.html',{
         id: id,
-        _csrf: '{{ctx.csrf}}'
+        _csrf: csrf
       },function(data){
         if(data){
           layer.msg('删除成功！');
@@ -112,6 +128,17 @@ $(function(){
           layer.msg('未找到指定数据！');
         }        
       });
+    });
+  });
+  $('.state').click(function(){
+    let id = $(this).attr('data');
+    let state = $(this).attr('state');
+    $.post('admin_updata_state.html',{
+      id: id,
+      state: state,
+      _csrf: csrf
+    },function(data){
+      refresh();
     });
   });
 });

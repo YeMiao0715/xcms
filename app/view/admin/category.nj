@@ -1,3 +1,11 @@
+{# 
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-14 11:16:07 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 15:27:17
+ */ 
+ #}
 <span class="pull-right">
   <button class="layui-btn add">
     <i class="layui-icon">&#xe608;</i> 栏目添加
@@ -38,7 +46,7 @@
             <i class="layui-icon">&#xe642;</i>
           </button>
           <button class="layui-btn layui-btn-primary layui-btn-small del" data="{{i.id}}">
-            <i class="layui-icon">&#xe640;</i>
+            <i class="layui-icon" style="color: red">&#xe640;</i>
           </button>            
         </div>
       </td>
@@ -48,7 +56,7 @@
       {% if a.fid == i.id %}
         <tr>
           <td>{{a.id}}</td>
-          <td>┗{{a.catename}}</td>
+          <td>┗ {{a.catename}}</td>
           <td>
             {% if a.show == 1 %}
               显示
@@ -63,7 +71,7 @@
                 <i class="layui-icon">&#xe642;</i>
               </button>
               <button class="layui-btn layui-btn-primary layui-btn-small del" data="{{a.id}}">
-                <i class="layui-icon">&#xe640;</i>
+                <i class="layui-icon" style="color: red">&#xe640;</i>
               </button>            
             </div>          
           </td>
@@ -81,7 +89,7 @@ $(function(){
   });
   $('.add').click(function(){
     $.post('category_add.html',{
-      _csrf: '{{ctx.csrf}}'
+      _csrf: csrf
     },function(data){
       layer.open({
         title: '添加栏目！',
@@ -98,7 +106,7 @@ $(function(){
     },function(){
       $.post('category_del.html',{
         id: id,
-        _csrf: '{{ctx.csrf}}'
+        _csrf: csrf
       },function(data){
         if(data == 1){
           layer.msg('删除成功！');
@@ -109,10 +117,19 @@ $(function(){
       });
     });    
   });
+  $('.edit').click(function(){
+    let id = $(this).attr('data');
+    $.post('category_edit.html',{
+      id: id,
+      _csrf: csrf
+    },function(data){
+      layer.open({
+        title: '修改栏目！',
+        type: 1,
+        area: ['800px','600px'],
+        content: data
+      });
+    });      
+  }); 
 });
 </script>
-
-{#
-author: YeMiao
-date: 2017年7月12日16:02:44
-#}

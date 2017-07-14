@@ -1,10 +1,16 @@
+{# /*
+ * @Author: YeMiao 
+ * @Date: 2017-07-14 11:18:31 
+ * @Last Modified by:   YeMiao 
+ * @Last Modified time: 2017-07-14 11:18:31 
+ */ #}
 {% extends '../public/base.nj' %}
 {% block title %}
 登录
 {% endblock %}
 {% block head %}
-  <link rel="stylesheet" href="public/admin/css/login.css">
-  <script src="public/admin/js/login.js"></script>
+  <link rel="stylesheet" href="/public/admin/css/login.css">
+  <script src="/public/admin/js/login.js"></script>
 {% endblock %}
 {% block content%}
 <div id="login">

@@ -1,3 +1,9 @@
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-13 17:12:00 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 09:47:48
+ */
 'use strict';
 module.exports = app => {
   class HomeController extends app.Controller {
@@ -14,7 +20,7 @@ module.exports = app => {
       });
     }
     async home(ctx) {
-      const data = await ctx.service.log.get_log();
+      let data = await ctx.service.log.get_log();
       await ctx.render('admin/home', {
         row: data,
       });
@@ -24,15 +30,15 @@ module.exports = app => {
     }
     async log_add(ctx) {
       if (ctx.request.body.log != undefined) {
-        const data = ctx.request.body;
-        const status = await ctx.service.log.add_log(data);
+        let data = ctx.request.body;
+        let status = await ctx.service.log.add_log(data);
         ctx.body = status;
       }
     }
     async log_del(ctx) {
       if (ctx.request.body.id != undefined) {
-        const data = ctx.request.body;
-        const status = await ctx.service.log.del_log_id(data);
+        let data = ctx.request.body;
+        let status = await ctx.service.log.del_log_id(data);
         ctx.body = status;
       }
     }

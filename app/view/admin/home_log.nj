@@ -1,3 +1,9 @@
+{# /*
+ * @Author: YeMiao 
+ * @Date: 2017-07-14 11:18:50 
+ * @Last Modified by:   YeMiao 
+ * @Last Modified time: 2017-07-14 11:18:50 
+ */ #}
 <form class="layui-form" action="">
   <textarea name="log" required lay-verify="required" placeholder="请输入" class="layui-textarea"></textarea>
   <div class="layui-form-item">
@@ -10,7 +16,6 @@
 </form>
  
 <script>
-//Demo
 $(function(){
   layui.use(['form','layer'], function(){
     var form = layui.form();
@@ -19,7 +24,7 @@ $(function(){
   });
   $('form').off('submit').on('submit',function(){
     $.post('log_add.html',$(this).serialize(),function(data){
-      if(data > 1){
+      if(data > 0){
         layer.close(layer.index);
         layer.msg('添加成功！');
         refresh();

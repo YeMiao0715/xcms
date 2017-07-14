@@ -3,7 +3,7 @@
 跳转
 {% endblock%}
 {% block head %}
-<link rel="stylesheet" href="public/p/css/jump.css">
+<link rel="stylesheet" href="/public/p/css/jump.css">
 {% endblock %}
 {% block main %}
     <div class="system-message">

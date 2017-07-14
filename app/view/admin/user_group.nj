@@ -1,0 +1,88 @@
+{# 
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-14 14:52:19 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 16:30:12
+ */ 
+ #}
+<span class="pull-right">
+  <button class="layui-btn add">
+    <i class="layui-icon">&#xe608;</i> 用户组添加
+  </button>
+</span>
+<table class="layui-table">
+  <colgroup>
+    <col >
+    <col >
+    <col>
+  </colgroup>
+  <thead>
+    <tr>
+      <th>用户组</th>
+      <th>名称</th>
+      <th>操作</th>
+    </tr> 
+  </thead>
+  <tbody>
+    {% for i in row %}
+      <tr>
+        <td>{{i.group}}</td>
+        <td>{{i.name}}</td>
+        <td>
+          <div class="layui-btn-group">
+            <button class="layui-btn layui-btn-primary layui-btn-small edit" data="{{i.id}}">
+              <i class="layui-icon">&#xe642;</i>
+            </button>
+            <button class="layui-btn layui-btn-primary layui-btn-small del" data="{{i.id}}">
+              <i class="layui-icon" style="color: red">&#xe640;</i>
+            </button>            
+          </div>    
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<script>
+$(function(){
+  layui.use('layer',function(){
+    let layer = layui.layer;
+  });
+  $('.add').click(function(){
+    $.post('user_group_add.html',{
+      _csrf: csrf
+    },function(data){
+      layer.open({
+        title: '添加用户组 ！',
+        type: 1,
+        area: ['800px','600px'],
+        content: data
+      });
+    });
+  });
+  $('.del').click(function(){
+    let id = $(this).attr('data');
+    layer.confirm('确定删除！',{
+      btn: ['确定','取消']
+    },function(){
+      $.post('user_group_del.html',{
+        id: id,
+        _csrf: csrf
+      },function(data){
+        if(data == 1){
+          layer.msg('删除成功！');
+          refresh();
+        }else{
+          layer.msg('未找到指定数据！');
+        }
+      });
+    });
+  });
+  $('.edit').click(function(){
+
+  });
+
+
+});
+</script>
+          

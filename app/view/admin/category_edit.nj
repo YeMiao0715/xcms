@@ -1,14 +1,14 @@
 {# /*
  * @Author: YeMiao 
- * @Date: 2017-07-14 11:19:12 
+ * @Date: 2017-07-14 11:19:03 
  * @Last Modified by:   YeMiao 
- * @Last Modified time: 2017-07-14 11:19:12 
+ * @Last Modified time: 2017-07-14 11:19:03 
  */ #}
 <form class="layui-form" action="">
   <div class="layui-form-item">
     <label class="layui-form-label">栏目名称</label>
     <div class="layui-input-block">
-      <input type="text" name="catename" required  lay-verify="required" placeholder="栏目名不能大于5个字符" autocomplete="off" class="layui-input">
+      <input type="text" name="catename" required  lay-verify="required" placeholder="栏目名不能大于5个字符" autocomplete="off" class="layui-input" value="{{data.catename}}">
     </div>
   </div>
   <div class="layui-form-item">
@@ -17,14 +17,13 @@
       <select name="fid" lay-verify="required">
         <option value="0">顶级分类</option>
         {% for i in row %}
-          {% if i.fid == 0%}
-            <option value="{{i.id}}">{{i.catename}}</option>
+          {% if i.fid == 0 %}
+            {% if data.fid == i.id %}
+              <option value="{{i.id}}" selected>{{i.catename}}</option>
+            {% else %}
+              <option value="{{i.id}}">{{i.catename}}</option>
+            {% endif %}            
           {% endif %}
-          {# {% for a in row %}
-            {% if a.fid == i.id%}
-              <option value="{{a.id}}">┗{{a.catename}}</option>
-            {% endif%}
-          {% endfor %} #}
         {% endfor %}
       </select>
     </div>
@@ -32,7 +31,7 @@
   <div class="layui-form-item">
     <label class="layui-form-label">排序</label>
     <div class="layui-input-block">
-      <input type="text" name="order" required  lay-verify="required" placeholder="默认为空" autocomplete="off" class="layui-input" value="50">
+      <input type="text" name="order" required  lay-verify="required" placeholder="默认为空" autocomplete="off" class="layui-input" value="{{data.order}}">
     </div>
   </div>
   <div class="layui-form-item">
@@ -42,15 +41,14 @@
       <input type="radio" name="show" value="0" title="不显示">
     </div>
   </div>
-
   <div class="layui-form-item">
     <div class="layui-input-block">
       <input class="layui-btn" type="submit" value="立即提交">
-      {# <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button> #}
       <button type="reset" class="layui-btn layui-btn-primary">重置</button>
     </div>
   </div>
-</form>  
+  <input type="hidden" name="id" value="{{data.id}}">
+</form>
 <script>
 $(function(){
   layui.use(['form','layer'],function(){
@@ -59,16 +57,22 @@ $(function(){
     form.render();
   });
   $('form').off('submit').on('submit',function(){
-    $.post('category_add.html',$(this).serialize(),function(data){
-      if(data > 0){
+    $.post('category_updata.html',$(this).serialize(),function(data){
+      if(data == 1){
         layer.close(layer.index);
-        layer.msg('添加成功！')
+        layer.msg('修改成功！');
         refresh();
       }else{
-        layer.msg('栏目名重复！');
+        layer.msg('修改失败！');
       }
     });
     return false;
   });
 });
 </script>
+
+{#
+author: YeMiao
+date: 2017年7月13日09:25:13
+msg: 今天想给win10升个级
+#}

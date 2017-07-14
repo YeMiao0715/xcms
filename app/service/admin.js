@@ -1,11 +1,16 @@
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-13 17:12:11 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 17:18:13
+ */
 'use strict';
 module.exports = app => {
   class Admin extends app.Service {
-    async find_id(uid) {
-      let user = await app.mysql.select('admin_user', {
-        where: { id: uid },
-      });
-      return user[0];
+    async find_id(data) {
+      delete data._csrf;
+      let user = await app.mysql.get('admin_user',data);
+      return user;
     }
     async find_user(name) {
       let user = await app.mysql.select('admin_user', {
@@ -14,7 +19,9 @@ module.exports = app => {
       return user[0];
     }
     async get_user() {
-      let user = await app.mysql.select('admin_user');
+      let user = await app.mysql.select('admin_user',{
+        columns: ['id','user','add_time','add_user','state','group']
+      });
       return user;
     }
     async add_user(data) {
@@ -35,18 +42,28 @@ module.exports = app => {
       let user = await app.mysql.delete('admin_user', data);
       return user.affectedRows;
     }
-    async update_pass(data) {
+    async updata_pass(data) {
       let md5 = require('md5');
       delete data._csrf;
       data.password = md5(data.password);
       let user = await app.mysql.update('admin_user', data);
       return user.affectedRows;
     }
+    async updata(data){
+      delete data._csrf;
+      let user = await app.mysql.update('admin_user', data);
+      return user.affectedRows;
+    }
+    async updata_state(data){
+      delete data._csrf;
+      if(data.state == 0){
+        data.state = 1;
+      }else{
+        data.state = 0;
+      }
+      let user = await app.mysql.update('admin_user',data);
+      return user.affectedRows;
+    }
   }
   return Admin;
 };
-/**
- * author: YeMiao
- * date: 2017年7月12日15:02:25
- * msg: 后来加的！这个几天受到知乎的影响,才在代码的后面写作者。
- */

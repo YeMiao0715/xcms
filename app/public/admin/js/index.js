@@ -1,12 +1,27 @@
-layui.use('element');
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-13 17:36:28 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 14:07:18
+ */
+layui.use(['element','layer'],function(){
+  layer = layui.layer;
+});
 $(function() {
   // pjax 加载
-  if (location.pathname == '/') {
+  if (location.pathname == '/admin/') {
     $.pjax({
       url: 'home.html',
       container: '#main',
     });
+  }else if(location.pathname == '/admin'){
+    $.pjax({
+      url: 'admin/home.html',
+      container: '#main',
+    });
   }
+  var on_time = new Date().getTime();
+  var new_time = new Date().getTime();
   // 导航栏事件
   $('a').click(function() {
     let click = 1;
@@ -35,6 +50,7 @@ $(function() {
       $.each($('.layui-tab-title').find('li'), function() {
         if (!$(this).text().indexOf(text)) {
           $(this).addClass('layui-this');
+          
         }
       });
       $.pjax({
@@ -92,19 +108,36 @@ $(function() {
       }
     }
   };
+  $('body').click(function(){
+    new_time = new Date().getTime();
+    if(new_time - on_time > 1000*60*60){
+      layer.open({
+        title: '提示！',
+        content: '你已超时！',
+        btn: ['确定'],
+        shade: [1,'#393d49'],
+        yes: function(index,layero){
+          $.post('/admin/timeout.html',{
+            _csrf: csrf
+          },function(data){
+            location.href = '/';
+          });
+        }
+      });
+    }else{
+      on_time = new Date().getTime();
+    }
+  });
   $(document).off('pjax:start').on('pjax:start', function() {
-    // $('body').append('<div id="loading" style="display: flex;  align-items: center;  justify-content: space-between;">'+
-    // '<img id="loading" src="public/img/loading.gif" style=""></img>'+
-    // '</div>');
+    
   });
   $(document).off('pjax:end').on('pjax:end', function() {
-    // setTimeout(function(){
-    //   $('#loading').remove();
-    // },2000);
+
   });
   // pjax终了
 });
 // 自定义全局方法
+  // 刷新
 var refresh = function(){
   let url = window.location.pathname;
   $.pjax({
@@ -112,10 +145,3 @@ var refresh = function(){
     container: '#main',
   });
 }
-
-/**
- * author: YeMiao
- * date: 2017年7月12日16:41:40
- * msg: 添加自定义刷新方法。 107行
- * msg: refresh() 是全局变量！可以使pjax过来的页面使用。
- */

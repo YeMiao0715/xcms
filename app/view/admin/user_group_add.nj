@@ -1,0 +1,48 @@
+{#
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-14 15:38:31 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 16:25:55
+ */
+#}
+<form class="layui-form" method="post" action="">
+  <div class="layui-form-item">
+    <label class="layui-form-label">用户组</label>
+    <div class="layui-input-block">
+      <input type="text" name="group" required  lay-verify="required" placeholder="以数字为标识" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <label class="layui-form-label">名称</label>
+    <div class="layui-input-block">
+      <input type="text" name="name" required lay-verify="required" placeholder="请输名称" autocomplete="off" class="layui-input">
+    </div>
+  </div>
+  <div class="layui-form-item">
+    <div class="layui-input-block">
+      <input type="submit" class="layui-btn" value="立即提交">
+      <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+    </div>
+  </div>
+</form>
+<script>
+$(function(){
+  layui.use(['form','layer'],function(){
+    var form = layui.form();
+    var layer = layui.layer;
+  });
+  $('form').off('submit').on('submit',function(){
+    $.post('user_group_add.html',$(this).serialize(),function(data){
+      if(data > 0){
+        layer.close(layer.index);
+        layer.msg('添加成功！');
+        refresh();
+      }else{
+        layer.msg('名称重复！');
+      }
+    });
+    return false;
+  });
+});
+</script>

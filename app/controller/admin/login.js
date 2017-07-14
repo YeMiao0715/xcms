@@ -1,3 +1,9 @@
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-13 17:12:06 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 15:22:04
+ */
 'use strict';
 
 module.exports = app => {
@@ -5,28 +11,23 @@ module.exports = app => {
     async index(ctx) {
       if (ctx.request.body.user !== undefined) {
         let status = 0;
-        const md5 = require('md5');
-        const user = ctx.request.body.user;
-        const data = await ctx.service.admin.find_user(user);
+        let md5 = require('md5');
+        let user = ctx.request.body.user;
+        let data = await ctx.service.admin.find_user(user);
         if (data) {
-          if (md5(ctx.request.body.pass) == data.password) {
+          if (md5(ctx.request.body.pass) == data.password && data.state == 1 && data.group == 0) {
             ctx.session.user = user;
             ctx.session.password = data.password;
-            status = 1;
+            await ctx.render('/public/jump', {
+              msg: '登录成功！',
+              url: '/admin/',
+            });
           } else {
-            console.log(md5(ctx.request.body.pass));
+            await ctx.render('/public/jump', {
+              msg: '用户或密码错误！请与管理员联系！',
+              url: '/admin/login.html',
+            });
           }
-        }
-        if (status) {
-          await ctx.render('public/jump', {
-            msg: '登录成功！',
-            url: '/',
-          });
-        } else {
-          await ctx.render('public/jump', {
-            msg: '用户或密码错误！',
-            url: 'login.html',
-          });
         }
         return;
       }
@@ -38,6 +39,10 @@ module.exports = app => {
         msg: '已安全退出！',
         url: 'login.html',
       });
+    }
+    async timeout(ctx) {
+      ctx.session = null;
+      ctx.body = 1;
     }
   }
   return LoginController;

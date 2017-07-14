@@ -1,3 +1,9 @@
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-13 17:12:21 
+ * @Last Modified by: YeMiao
+ * @Last Modified time: 2017-07-14 09:33:30
+ */
 'use strict';
 module.exports = app => {
   class Log extends app.Service {

@@ -1,3 +1,9 @@
+/*
+ * @Author: YeMiao 
+ * @Date: 2017-07-13 17:11:55 
+ * @Last Modified by:   YeMiao 
+ * @Last Modified time: 2017-07-13 17:11:55 
+ */
 'use strict';
 
 module.exports = app => {
@@ -24,6 +30,24 @@ module.exports = app => {
       if(ctx.request.body.id != undefined){
         let data = ctx.request.body;
         let status = await ctx.service.category.del_id(data);
+        ctx.body = status;
+      }
+    }
+    async edit(ctx){
+      if(ctx.request.body.id > 0){
+        let data = ctx.request.body;
+        let status = await ctx.service.category.find_id(data);
+        let row = await ctx.service.category.get_catename();   
+        return await ctx.render('admin/category_edit',{
+          data: status,
+          row: row
+        });
+      }
+    }
+    async updata(ctx){
+      if(ctx.request.body.id > 0){
+        let data = ctx.request.body;
+        let status = await ctx.service.category.updata(data);
         ctx.body = status;
       }
     }
